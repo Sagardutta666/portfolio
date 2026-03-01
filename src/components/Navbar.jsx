@@ -36,6 +36,7 @@ const Navbar = () => {
 
   const handleNav = (id) => {
     setOpen(false);
+    setActive(id); // Set active immediately for instant UI feedback
     setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
@@ -130,12 +131,20 @@ const Navbar = () => {
             <motion.button
               key={id}
               onClick={() => handleNav(id)}
+              layout
               initial={false}
               animate={{
                 width: isActive ? 'auto' : 42,
                 backgroundColor: isActive ? 'var(--primary)' : 'transparent',
+                paddingLeft: isActive ? 16 : 0,
+                paddingRight: isActive ? 16 : 0,
               }}
-              transition={{ type: 'spring', duration: 0.5, bounce: 0.3 }}
+              transition={{
+                type: 'spring',
+                stiffness: 400,
+                damping: 30,
+                backgroundColor: { duration: 0.2 }
+              }}
               style={{
                 height: 42,
                 borderRadius: 21,
@@ -143,7 +152,6 @@ const Navbar = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: isActive ? '0 14px' : '0',
                 gap: 8,
                 cursor: 'pointer',
                 color: isActive ? 'var(--btn-solid-text)' : 'var(--text-secondary)',

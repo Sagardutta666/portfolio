@@ -74,7 +74,7 @@ const Contact = () => (
       >
         <a href={resumeData.github} target="_blank" rel="noreferrer" className="tactical-btn">GITHUB_REPO</a>
         <a href={resumeData.linkedin} target="_blank" rel="noreferrer" className="tactical-btn">LINKEDIN_LINK</a>
-        <a href={resumeData.resumeUrl} target="_blank" rel="noreferrer" className="tactical-btn solid">DOWNLOAD_CV</a>
+        <a href={resumeData.resumeUrl} target="_blank" rel="noreferrer" className="tactical-btn solid">RESUME</a>
       </motion.div>
 
       <motion.div

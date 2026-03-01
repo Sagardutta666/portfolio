@@ -4,10 +4,9 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import { resumeData } from '../data';
 
 const marqueeItems = [
-  'Flutter', 'React', 'Node.js', 'Python', 'TypeScript', 'Firebase',
-  'MongoDB', 'PostgreSQL', 'Docker', 'AWS', 'GraphQL', 'Next.js',
-  'Flutter', 'React', 'Node.js', 'Python', 'TypeScript', 'Firebase',
-  'MongoDB', 'PostgreSQL', 'Docker', 'AWS', 'GraphQL', 'Next.js',
+  'Flutter', 'React', 'Node.js', 'Fast API', 'TypeScript', 'Firebase',
+  'Next.js', 'Dart', 'Kotlin', 'Android Studio', 'Android', 'Git', 'GitHub',
+  'Gitlab', 'Postman', 'Bitbucket', 'Angular', 'JavaScript', 'Framer Motion'
 ];
 
 const SkillOrbit = ({ skills }) => {

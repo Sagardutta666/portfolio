@@ -6,7 +6,7 @@ export const resumeData = {
     phone: "+91 7900135831",
     github: "https://github.com/Sagardutta666?tab=repositories",
     linkedin: "https://www.linkedin.com/in/sagardutta-8061241a3/",
-    resumeUrl: "https://drive.google.com/file/d/1X504D-uJiv0sU_G-Fh1Pz-vCjW_P9M_p/view?usp=sharing",
+    resumeUrl: "https://drive.google.com/file/d/1wq8EGp1eED4XMCBm9Zreu2Ihww7M1r_p/view?usp=sharing",
 
     bioTitle: "Results-driven Software Developer",
     bioFull: "Results-driven Software Developer with expertise in Flutter, Dart and Firebase. Passionate about building dynamic cross-platform applications with a focus on user-centric design and seamless functionality. Strong background in mobile and web development, API integration, and collaborative software engineering.",

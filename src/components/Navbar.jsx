@@ -17,11 +17,16 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
+
+      // Don't update active state if we're currently scrolling via a click
+      if (isScrolling) return;
+
       for (let i = NAV_SECTIONS.length - 1; i >= 0; i--) {
         const el = document.getElementById(NAV_SECTIONS[i].id);
         if (el && el.offsetTop <= window.scrollY + window.innerHeight * 0.4) {
@@ -32,14 +37,23 @@ const Navbar = () => {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isScrolling]);
 
   const handleNav = (id) => {
+    setActive(id);
     setOpen(false);
-    setActive(id); // Instant feedback: expand button immediately
+    setIsScrolling(true);
+
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Reset the scrolling flag after the smooth scroll completes
+    // Most smooth scrolls take < 1000ms
     setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+      setIsScrolling(false);
+    }, 1000);
   };
 
   const isDark = theme === 'dark';
@@ -112,17 +126,18 @@ const Navbar = () => {
           width: 'fit-content',
           zIndex: 8500,
           background: 'var(--surface)',
-          padding: '6px',
+          padding: '4px',
           borderRadius: 32,
           border: '1px solid var(--border-hover)',
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
           display: 'none', /* Controlled via CSS */
           gap: '4px',
           maxWidth: 'calc(100vw - 40px)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(12px)', // Reduced blur for performance
+          WebkitBackdropFilter: 'blur(12px)',
           alignItems: 'center',
           justifyContent: 'center',
+          willChange: 'transform',
         }}
       >
         {NAV_SECTIONS.map(({ id, label, icon: Icon }) => {
@@ -134,47 +149,53 @@ const Navbar = () => {
               layout
               initial={false}
               animate={{
-                width: isActive ? 'auto' : 42,
                 backgroundColor: isActive ? 'var(--primary)' : 'transparent',
-                paddingLeft: isActive ? 16 : 0,
-                paddingRight: isActive ? 16 : 0,
+                // Remove explicit width: auto to let layout handle it more efficiently
               }}
               transition={{
                 type: 'spring',
-                stiffness: 450,
-                damping: 35,
-                backgroundColor: { duration: 0.15 }
+                stiffness: 380, // Slightly less aggressive
+                damping: 30,
+                backgroundColor: { duration: 0.2 }
               }}
               style={{
                 height: 42,
+                minWidth: 42,
                 borderRadius: 21,
                 border: 'none',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
+                padding: isActive ? '0 16px' : '0 12px',
                 cursor: 'pointer',
                 color: isActive ? 'var(--btn-solid-text)' : 'var(--text-secondary)',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
+                willChange: 'width, background-color',
+                position: 'relative',
               }}
             >
-              <Icon size={18} strokeWidth={isActive ? 2.5 : 2} style={{ flexShrink: 0 }} />
-              {isActive && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    fontSize: 9,
-                    fontWeight: 900,
-                    fontFamily: 'var(--font-mono)',
-                    letterSpacing: 1,
-                  }}
-                >
-                  {label}
-                </motion.span>
-              )}
+              <Icon size={18} strokeWidth={2} style={{ flexShrink: 0 }} />
+              <AnimatePresence mode="popLayout">
+                {isActive && (
+                  <motion.span
+                    key="label"
+                    initial={{ opacity: 0, x: -5 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -5 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
+                    style={{
+                      fontSize: 9,
+                      fontWeight: 900,
+                      fontFamily: 'var(--font-mono)',
+                      letterSpacing: 1,
+                      marginLeft: 8,
+                    }}
+                  >
+                    {label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </motion.button>
           );
         })}

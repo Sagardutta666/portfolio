@@ -151,11 +151,12 @@ const Navbar = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+              <Icon size={18} strokeWidth={isActive ? 2.5 : 2} style={{ flexShrink: 0 }} />
               {isActive && (
                 <motion.span
-                  initial={{ opacity: 0, x: -5 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
                   style={{
                     fontSize: 9,
                     fontWeight: 900,

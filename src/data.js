@@ -5,7 +5,7 @@ export const resumeData = {
     location: "Thane, India",
     phone: "+91 7900135831",
     github: "https://github.com/Sagardutta666?tab=repositories",
-    linkedin: "https://www.linkedin.com/in/sagardutta-8061241a3/",
+    linkedin: "https://www.linkedin.com/in/sagar-dutta-8061241a3",
     resumeUrl: "https://drive.google.com/file/d/1wq8EGp1eED4XMCBm9Zreu2Ihww7M1r_p/view?usp=sharing",
 
     bioTitle: "Results-driven Software Developer",

@@ -104,9 +104,11 @@ const Skills = () => (
     <div style={{
       position: 'absolute', top: '50%', left: '50%',
       transform: 'translate(-50%, calc(-50% - 14vh))',
-      width: 'min(90vw, 700px)', height: 'min(90vw, 700px)',
+      width: 'min(90vw, 750px)', height: 'min(90vw, 750px)',
       border: '1px solid var(--ring-color)',
       borderRadius: '50%', pointerEvents: 'none',
+      maskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+      WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
     }} />
 
     <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>

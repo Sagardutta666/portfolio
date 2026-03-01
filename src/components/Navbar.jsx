@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const handleNav = (id) => {
     setOpen(false);
-    setActive(id); // Set active immediately for instant UI feedback
+    setActive(id); // Instant feedback: expand button immediately
     setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
@@ -141,9 +141,9 @@ const Navbar = () => {
               }}
               transition={{
                 type: 'spring',
-                stiffness: 400,
-                damping: 30,
-                backgroundColor: { duration: 0.2 }
+                stiffness: 450,
+                damping: 35,
+                backgroundColor: { duration: 0.15 }
               }}
               style={{
                 height: 42,

@@ -103,7 +103,7 @@ const Skills = () => (
   <section id="skills" style={{ overflow: 'hidden' }}>
     <div style={{
       position: 'absolute', top: '50%', left: '50%',
-      transform: 'translate(-50%,-50%)',
+      transform: 'translate(-50%, calc(-50% - 14vh))',
       width: 'min(90vw, 700px)', height: 'min(90vw, 700px)',
       border: '1px solid var(--ring-color)',
       borderRadius: '50%', pointerEvents: 'none',

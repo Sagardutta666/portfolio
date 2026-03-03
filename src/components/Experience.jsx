@@ -11,7 +11,7 @@ const ExperienceCard = ({ exp, index }) => {
       className="exp-card"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.1 }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
     >
       {/* Left accent line */}
@@ -81,7 +81,7 @@ const Experience = () => (
         style={{ textAlign: 'center', marginBottom: '3rem', width: '100%' }}
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
       >
         <span className="section-label">SERVICE_HISTORY</span>
         <h2 style={{

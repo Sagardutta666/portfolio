@@ -31,66 +31,155 @@ const EncryptedEmail = ({ email }) => {
   );
 };
 
-const Contact = () => (
-  <section id="contact">
-    {/* Background rings */}
-    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, border: '1px solid var(--ring-color)', borderRadius: '50%', pointerEvents: 'none' }} />
-    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 400, height: 400, border: '1px solid var(--border)', borderRadius: '50%', pointerEvents: 'none' }} />
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState('READY_FOR_UPLINK');
 
-    <div className="container" style={{ textAlign: 'center', maxWidth: 800, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('TRANSMITTING...');
 
-      <motion.div initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <div className="dossier-tag mono">COMMUNICATION_GATEWAY v1.0</div>
-      </motion.div>
+    // URL is stored locally in .env for security
+    const GOOGLE_SHEET_URL = import.meta.env.VITE_GOOGLE_SHEET_URL;
 
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-        style={{ fontSize: 'clamp(28px,7vw,56px)', fontWeight: 900, color: 'var(--text-main)', letterSpacing: -1 }}
-      >
-        INITIATE_CONTACT
-      </motion.h2>
+    try {
+      console.log('--- SIGNAL_UPLINK_START ---');
+      console.log('DATA_PACKET:', formData);
+      console.log('TARGET_URL:', GOOGLE_SHEET_URL);
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
-        style={{ fontSize: 'clamp(14px,2vw,18px)', color: 'var(--text-secondary)', lineHeight: 1.6, fontWeight: 300 }}
-      >
-        I am currently accepting select mission-critical projects.<br />
-        Signal stability is high. Response time optimized.
-      </motion.p>
+      await fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain', // Using text/plain avoids some CORS preflight issues with Apps Script
+        },
+        body: JSON.stringify(formData),
+      });
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-        transition={{ delay: 0.6 }}
-      >
-        <EncryptedEmail email={resumeData.email} />
-      </motion.div>
+      console.log('--- SIGNAL_UPLINK_COMPLETE ---');
+      console.log('STATUS: Success (Opaque response received)');
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-        transition={{ delay: 0.7 }}
-        style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}
-      >
-        <a href={resumeData.github} target="_blank" rel="noreferrer" className="tactical-btn">GITHUB_REPO</a>
-        <a href={resumeData.linkedin} target="_blank" rel="noreferrer" className="tactical-btn">LINKEDIN_LINK</a>
-        <a href={resumeData.resumeUrl} target="_blank" rel="noreferrer" className="tactical-btn solid">RESUME</a>
-      </motion.div>
+      setStatus('UPLINK_SUCCESSFUL');
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setStatus('READY_FOR_UPLINK'), 3000);
+    } catch (error) {
+      console.error('--- SIGNAL_UPLINK_FAILED ---');
+      console.error('ERROR_DETAILS:', error);
+      setStatus('SIGNAL_ERROR');
+      setTimeout(() => setStatus('READY_FOR_UPLINK'), 3000);
+    }
+  };
 
-      <motion.div
-        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-        transition={{ delay: 0.8 }}
-      >
-        <div className="status-bar white-surface">
-          <span className="pulse-dot" />
-          <span className="mono" style={{ fontSize: 10, color: 'rgba(0,123,255,0.5)', letterSpacing: 1 }}>
-            SIGNAL_STABLE // READY_FOR_UPLINK
-          </span>
-        </div>
-      </motion.div>
+  return (
+    <section id="contact">
+      {/* Background rings */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, border: '1px solid var(--ring-color)', borderRadius: '50%', pointerEvents: 'none' }} />
 
-    </div>
-  </section>
-);
+      <div className="container" style={{ textAlign: 'center', maxWidth: 800, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+
+        <motion.div initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }}>
+          <div className="dossier-tag mono">COMMUNICATION_GATEWAY v2.1</div>
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.2 }}
+          style={{ fontSize: 'clamp(28px,7vw,56px)', fontWeight: 900, color: 'var(--text-main)', letterSpacing: -1 }}
+        >
+          ESTABLISH_CONNECTION
+        </motion.h2>
+
+        {/* Tactical Form */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false, amount: 0.1 }}
+          style={{
+            width: '100%',
+            maxWidth: '600px',
+            background: 'rgba(255, 255, 255, 0.03)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid var(--border)',
+            padding: '2.5rem',
+            borderRadius: '12px',
+            textAlign: 'left',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.5rem'
+          }}
+        >
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <div className="input-group">
+              <label className="mono" style={{ fontSize: '10px', color: 'var(--primary)', marginBottom: '8px', display: 'block', opacity: 0.7 }}>SENDER_ID</label>
+              <input
+                type="text"
+                placeholder="YOUR NAME"
+                required
+                className="tactical-input"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+            <div className="input-group">
+              <label className="mono" style={{ fontSize: '10px', color: 'var(--primary)', marginBottom: '8px', display: 'block', opacity: 0.7 }}>RETURN_PATH</label>
+              <input
+                type="email"
+                placeholder="EMAIL_ADDRESS"
+                required
+                className="tactical-input"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label className="mono" style={{ fontSize: '10px', color: 'var(--primary)', marginBottom: '8px', display: 'block', opacity: 0.7 }}>SIGNAL_STREAM</label>
+            <textarea
+              placeholder="ENTER YOUR MESSAGE HERE..."
+              required
+              rows="5"
+              className="tactical-input"
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            ></textarea>
+          </div>
+
+          <button type="submit" className="tactical-btn solid" style={{ width: '100%', padding: '15px' }}>
+            {status}
+          </button>
+        </motion.form>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.7 }}
+          style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', marginTop: '1rem' }}
+        >
+          <a href={resumeData.github} target="_blank" rel="noreferrer" className="tactical-btn">GITHUB</a>
+          <a href={resumeData.linkedin} target="_blank" rel="noreferrer" className="tactical-btn">LINKEDIN</a>
+          <EncryptedEmail email={resumeData.email} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <div className="status-bar white-surface">
+            <span className="pulse-dot" />
+            <span className="mono" style={{ fontSize: 10, color: 'rgba(0,123,255,0.5)', letterSpacing: 1 }}>
+              ENCRYPTION_ACTIVE // {status}
+            </span>
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
 
 export default Contact;

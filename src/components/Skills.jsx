@@ -118,7 +118,7 @@ const Skills = () => (
         style={{ textAlign: 'center', marginBottom: '2rem', width: '100%' }}
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
       >
         <span className="section-label">TECHNICAL_STACK</span>
         <h2 style={{ fontSize: 'clamp(40px,6vw,56px)', fontWeight: 900, color: 'var(--text-main)', letterSpacing: '-1px' }}>
@@ -132,7 +132,7 @@ const Skills = () => (
         style={{ width: '100%' }}
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
       >
         <SkillOrbit skills={resumeData.orbitalSkills} />
       </motion.div>

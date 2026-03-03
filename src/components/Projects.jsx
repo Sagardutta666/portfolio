@@ -78,7 +78,7 @@ const Projects = () => {
           style={{ textAlign: 'center', marginBottom: '2.5rem', width: '100%' }}
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
         >
           <span className="section-label">PROJECT_FILES</span>
           <h2 style={{ fontSize: 'clamp(36px,6vw,48px)', fontWeight: 900, color: 'var(--text-main)', letterSpacing: '-1px' }}>

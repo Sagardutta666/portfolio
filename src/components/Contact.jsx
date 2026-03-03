@@ -47,28 +47,19 @@ const Contact = () => {
     const GOOGLE_SHEET_URL = import.meta.env.VITE_GOOGLE_SHEET_URL;
 
     try {
-      console.log('--- SIGNAL_UPLINK_START ---');
-      console.log('DATA_PACKET:', formData);
-      console.log('TARGET_URL:', GOOGLE_SHEET_URL);
-
       await fetch(GOOGLE_SHEET_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'text/plain', // Using text/plain avoids some CORS preflight issues with Apps Script
+          'Content-Type': 'text/plain',
         },
         body: JSON.stringify(formData),
       });
-
-      console.log('--- SIGNAL_UPLINK_COMPLETE ---');
-      console.log('STATUS: Success (Opaque response received)');
 
       setStatus('UPLINK_SUCCESSFUL');
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setStatus('READY_FOR_UPLINK'), 3000);
     } catch (error) {
-      console.error('--- SIGNAL_UPLINK_FAILED ---');
-      console.error('ERROR_DETAILS:', error);
       setStatus('SIGNAL_ERROR');
       setTimeout(() => setStatus('READY_FOR_UPLINK'), 3000);
     }

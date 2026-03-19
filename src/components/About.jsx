@@ -1,7 +1,5 @@
-import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data';
-import { RefreshCcw } from 'lucide-react';
 
 const StatBar = ({ label, percent, value }) => (
   <div style={{ marginBottom: '1rem' }}>
@@ -21,23 +19,6 @@ const StatBar = ({ label, percent, value }) => (
 );
 
 const About = () => {
-  const [isScanning, setIsScanning] = useState(false);
-  const [phase, setPhase] = useState(false); // false = Ghibli, true = real
-  const [showResult, setShowResult] = useState(false);
-
-  const triggerScan = () => {
-    if (isScanning) return;
-    setIsScanning(true);
-    setShowResult(true);
-
-    // After 2 seconds (matching scanner duration), finalize the transition
-    setTimeout(() => {
-      setIsScanning(false);
-      setPhase(p => !p);
-      setShowResult(false);
-    }, 2000);
-  };
-
   return (
     <section id="about">
       <div className="container">
@@ -59,50 +40,17 @@ const About = () => {
             <div className="main-frame white-surface">
               <div className="frame-grid" />
 
-              {/* Base Image (Initial is Ghibli now) */}
+              {/* Profile Image */}
               <img
-                src={phase ? '/images/original.JPG' : '/images/Ghibli.png'}
+                src="/images/WhatsApp%20Image%202026-03-19%20at%201.45.51%20AM.jpeg"
                 alt="Sagar Dutta"
                 className="profile-img"
               />
-
-              {/* Revealed Image (Original photo revealed) */}
-              {showResult && (
-                <motion.img
-                  src={phase ? '/images/Ghibli.png' : '/images/original.JPG'}
-                  alt="Sagar Dutta Transformation"
-                  className="profile-img"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 2,
-                    objectFit: 'cover'
-                  }}
-                  initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
-                  animate={{ clipPath: isScanning ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)' }}
-                  transition={{ duration: 2, ease: 'linear' }}
-                />
-              )}
-
-              {isScanning && (
-                <motion.div
-                  className="scan-beam"
-                  initial={{ top: '-2%' }}
-                  animate={{ top: '100%' }}
-                  transition={{ duration: 2, ease: 'linear' }}
-                  style={{ zIndex: 10 }}
-                />
-              )}
 
               <span className="frame-label fl-tl mono">ARCH_ID: 0x9B // NEURAL</span>
               <span className="frame-label fl-tr mono">LOAD: STABLE</span>
               <span className="frame-label fl-bl mono">LATENCY: 0.04ms</span>
               <span className="frame-label fl-br mono">SIG_STRENGTH: MAX</span>
-              <button className="scan-btn mono" onClick={triggerScan}>
-                {isScanning ? 'RECONSTRUCT_DATA...' : 'CLICK ME! [ENHANCE]'}&nbsp;
-                <RefreshCcw size={10} style={{ animation: isScanning ? 'spin 2s linear infinite' : 'none' }} />
-              </button>
             </div>
 
             <div className="tac tl" /><div className="tac tr" />

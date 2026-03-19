@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    text {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-weight: 900;
+      font-size: 40px;
+      letter-spacing: -2px;
+    }
+    @media (prefers-color-scheme: light) {
+      rect.bg { fill: #F7E7CE; }
+      text { fill: #102C26; }
+      path { stroke: #102C26; }
+    }
+    @media (prefers-color-scheme: dark) {
+      rect.bg { fill: #102C26; }
+      text { fill: #F7E7CE; }
+      path { stroke: #F7E7CE; }
+    }
+  </style>
+  <rect class="bg" width="100" height="100" rx="22" />
+  <text x="49" y="55" dominant-baseline="middle" text-anchor="middle">SD</text>
+  <path d="M 20 30 L 20 20 L 30 20" fill="none" stroke-width="4" />
+  <path d="M 80 30 L 80 20 L 70 20" fill="none" stroke-width="4" />
+  <path d="M 20 70 L 20 80 L 30 80" fill="none" stroke-width="4" />
+  <path d="M 80 70 L 80 80 L 70 80" fill="none" stroke-width="4" />
+</svg>

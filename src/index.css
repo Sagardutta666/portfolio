@@ -712,6 +712,8 @@ textarea.tactical-input {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
+    transform: scale(0.9);
     opacity: 0.9;
     display: block;
 }
